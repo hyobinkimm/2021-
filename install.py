@@ -1,7 +1,6 @@
 import distutils
 from distutils.core import setup
 import os
-import shutil
 link = os.getlogin()
 
 nowdr="./.aws"

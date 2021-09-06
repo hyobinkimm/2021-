@@ -141,12 +141,8 @@ public:
 			if (1 <= input && input <= 5)break;
 			else {
 				cout << "다시 입력해주세요\nINPUT : ";
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
 			}
 		}
-		cin.clear();
-		cin.ignore(INT_MAX, '\n');
 		Input(input);
 	}
 	void Input(int x) {
@@ -235,10 +231,9 @@ public:
 		printf("****************************게임 방법****************************\n\n");
 		printf("1. 4×4 배열판에서 똑같은 카드를 맞추는 게임입니다.\n");
 		printf("2. 알파벳 a~z 중 임의의 문자가 한 쌍으로 들어갑니다.\n");
-		printf("3. 상하좌우는 방향키, 카드 뒤집기는 SPACE BAR를 사용하세요.\n");
-		printf("4. 연속으로 맞추면 +1점, 연속으로 틀리면 -1점이 부여됩니다.\n");
-		printf("5. 게임을 claer해야만 점수가 등록됩니다.\n");
-		printf("6. 점수가 동일할 경우, 풀은 시간을 기준으로 등수가 올라갑니다.\n\n");
+		printf("3. 카드를 뒤집은 횟수 기준으로 점수가 측정됩니다.\n");
+		printf("4. 게임을 claer해야만 점수가 등록됩니다.\n");
+		printf("5. 카드를 뒤집은 횟수가 동일할 경우, 풀은 시간을 기준으로 등수가 올라갑니다.\n\n");
 	}
 	void StartGame() {
 		system("cls");
@@ -329,8 +324,6 @@ public:
 		GotoXY(14, 2);
 		cout << "카드를 맞춘 짝의 수 : " << MatchCount;
 		isVisit = false;
-		GotoXY(14, 4);
-		cout << "                       ";
 	}
 	void CheckCard() {
 		if (FlipCount == 2)
@@ -345,42 +338,17 @@ public:
 					++MatchCount; //올라감
 					visited[FlipPosition[0].y][FlipPosition[0].x] = 1;
 					visited[FlipPosition[1].y][FlipPosition[1].x] = 1;
-					con++;
-					if (con >= 2) {
-						bonus += 1;
-						GotoXY(14, 4);
-						TextColor(PINK);
-						cout << "BONUS!" << endl;
-						Sleep(300);
-					}
 				}
-				else {
-					con = 0;
-					bonus = 0;
-					Sleep(200);
-				}
-				mon = 0;
-				minus = 0;
+				else { Sleep(200); }
 			}
 			else
 			{
-				con = 0;
-				bonus = 0;
-				mon++;
-				if (mon >= 2) {
-					minus -= 1;
-					GotoXY(14, 4);
-					TextColor(RED);
-					cout << "MINUS!" << endl;
-					Sleep(100);
-				}
 				Sleep(200); //짝이 안맞을 경우 Sleep
 			}
 			QuestionMap[FlipPosition[0].y][FlipPosition[0].x] = c; //보드에 업데이트 해줌
 			QuestionMap[FlipPosition[1].y][FlipPosition[1].x] = c;
 			FlipCount = 0;
 			++Count;
-			
 			if (Count >= 100) {
 				system("cls");
 				GameOver();
@@ -396,10 +364,9 @@ public:
 		}
 	}
 	void SaveScore(int count) {
-		TextColor(WHITE);
 		system("cls");
 		cout << "잠시만 기다려주세요...\n\n";
-		score = 108 - count + bonus;
+		score = 108 - count;
 		
 		download();
 		FileReader();
@@ -482,17 +449,12 @@ public:
 		while (1) {
 			cout << "INPUT : ";
 			cin >> input;
-			if (!cin) {
-				cout << "Y랑 N 중에 다시 입력하세요.\n";
-			}
 			if (input == 'Y' || input == 'N' || input == 'y' || input == 'n') {
 				break;
 			}
 			else {
 				cout << "Y랑 N 중에 다시 입력하세요.\n";
 			}
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
 		}
 		if (input == 'Y' || input == 'y') {
 			system("cls");
@@ -510,9 +472,7 @@ public:
 		}
 		
 	}
-
 	void Initialize() {
-		temp = 1;
 		for (int i = 0; i < 16; i += 2) { //랜덤
 			for (int j = 0; j < 2; j++) {
 				TempOriginalMap[i + j] = temp;
@@ -526,18 +486,14 @@ public:
 		}
 		srand((unsigned int)time(NULL)); //랜덤
 		for (int i = 0; i < 100; i++) { //랜덤화 집어넣기
-			
 			index1 = rand() % 16;
-			index2 = rand() % 16; //0~15
-			
+			index2 = rand() % 16;
 			temp_index = TempOriginalMap[index1];
 			TempOriginalMap[index1] = TempOriginalMap[index2];
 			TempOriginalMap[index2] = temp_index;
-
 		}
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				
 				OriginalMap[i][j] = TempOriginalMap[i * 4 + j] + '0';
 			}
 		}
@@ -561,10 +517,6 @@ public:
 		}
 		start = 0; end = 0;
 		isVisit = false;
-		con = 0;
-		bonus = 0;
-		mon = 0;
-		minus = 0;
 	}
 private:
 	int TempOriginalMap[16] = {};
@@ -576,11 +528,6 @@ private:
 	int temp = 1;
 	int index1 = 0, index2 = 0, temp_index = 0;
 	int tempX, tempY;
-
-	int con = 0;
-	int bonus = 0;
-	int mon = 0;
-	int minus = 0;
 
 	bool isVisit = false;
 	clock_t start, end;

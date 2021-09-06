@@ -15,16 +15,8 @@ client = boto3.client('s3',
     )
 s3 = boto3.resource('s3')
 
-buckets = s3.Bucket(name=AWS_BUCKET_NAME)
-
 # S3 Client 생성
 s3 = boto3.client('s3')
-
-# S3에 있는 현재 버킷리스트의 정보를 가져온다
-response = s3.list_buckets()
-
-# response에 담겨있는 Buckets의 이름만 가져와 buckets 변수에 배열로 저장
-buckets = [bucket['Name'] for bucket in response['Buckets']]
 
 # 업로드할 파일 이름
 filename = "score.dll"

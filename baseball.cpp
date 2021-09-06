@@ -102,12 +102,8 @@ public:
 			if (1 <= input && input <= 5)break;
 			else {
 				cout << "다시 입력해주세요\nINPUT : ";
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
 			}
 		}
-		cin.clear();
-		cin.ignore(INT_MAX, '\n');
 		Input(input);
 	}
 
@@ -118,7 +114,6 @@ public:
 			printf("자신을 드러내는 별명 혹은 이름을 입력해주세요.(띄어쓰기X)\n");
 			printf("INPUT : ");
 			cin >> name;
-			
 			printf("게임을 시작합니다.\n");
 			printf("3..\n"); Sleep(1000);
 			printf("2..\n"); Sleep(1000);
@@ -167,7 +162,7 @@ public:
 			Sleep(1500);
 			Screen();
 		}
-		else if (x == 5) exit(0);
+		else exit(0);
 	}
 	void showHowtoplay() {
 		printf("**********************************게임 방법**********************************\n\n");
@@ -194,6 +189,11 @@ public:
 	void GameStart() {
 		system("cls");
 		setComrand();
+		/*for (int i = 0; i < 4; i++)
+		{
+			cout << com[i] << " ";
+		}
+		cout << endl;*/
 		int num = 1;
 		printf("컴퓨터가 임의의 네 가지의 수를 정하였습니다.\n\n");
 		Sleep(1000);
@@ -214,24 +214,16 @@ public:
 			while (1) {
 				bool iscompo = false;
 				printf("INPUT : ");
-				for (int i = 0; i < 4; i++) {
-					usr[i] = 0;
-				}
+				for (int i = 0; i < 4; i++) usr[i] = 0;
 				for (int i = 0; i < 4; i++)
 				{
 					cin >> usr[i];
-					if (!cin) {
-						cout << "숫자만 입력하세요.\n";
-						iscompo = true;
-					}
-					cin.clear();
-					cin.ignore();
+
 				}
-				
+
 				// 중복 검사
 				for (int i = 0; i < 4; i++)
 				{
-					if (iscompo == true) break;
 					for (int j = 0; j < 4; j++)
 					{
 						if (i == j)continue;
@@ -281,22 +273,17 @@ public:
 			}
 		}
 		Sleep(1000);
-		char input;
+		char input = '0';
 		cout << "메뉴로 돌아가시겠습니까? Y/N\n";
 		while (1) {
 			cout << "INPUT : ";
 			cin >> input;
-			if (!cin) {
-				cout << "Y랑 N 중에 다시 입력하세요.\n";
-			}
-			if (input== 'Y' || input == 'N' || input == 'y' || input == 'n') {
+			if (input == 'Y' || input == 'N' || input == 'y' || input == 'n') {
 				break;
 			}
 			else {
 				cout << "Y랑 N 중에 다시 입력하세요.\n";
 			}
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
 		}
 		if (input == 'Y' || input == 'y') {
 			system("cls");
